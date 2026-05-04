@@ -121,7 +121,7 @@ section[data-testid="stSidebar"] {
 # ──────────────────────────────────────────────────────────────────
 # Load model
 # ──────────────────────────────────────────────────────────────────
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "best_model_hotel_demand_030526_11:09.pkl")
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "best_model_hotel_demand_030526_1109.pkl")
 
 @st.cache_resource
 def load_model():
