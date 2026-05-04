@@ -3,6 +3,7 @@ import pandas as pd
 import numpy as np
 import pickle
 import os
+import base64
 
 # ──────────────────────────────────────────────────────────────────
 # Page config
@@ -14,106 +15,140 @@ st.set_page_config(
 )
 
 # ──────────────────────────────────────────────────────────────────
-# Custom CSS
+# Custom CSS — Light Professional Theme
 # ──────────────────────────────────────────────────────────────────
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
+/* ── Base ── */
 html, body, [class*="css"] {
     font-family: 'Inter', sans-serif;
+    color: #1e293b;
 }
 
-/* Main background */
 .stApp {
-    background: linear-gradient(135deg, #0f0c29 0%, #1a1a3e 40%, #24243e 100%);
+    background-color: #f8fafc;
 }
 
-/* Header */
+/* ── Hide sidebar, footer, deploy button ── */
+section[data-testid="stSidebar"] { display: none !important; }
+footer { display: none !important; }
+#MainMenu { display: none !important; }
+header[data-testid="stHeader"] { background: transparent !important; }
+
+/* ── Banner ── */
+.banner-wrapper {
+    width: 100%;
+    max-height: 220px;
+    overflow: hidden;
+    border-radius: 0 0 18px 18px;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.banner-wrapper img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    display: block;
+}
+
+/* ── Header text ── */
 .main-header {
     text-align: center;
-    padding: 2rem 1rem 1rem 1rem;
+    padding: 1.2rem 1rem 0.6rem 1rem;
 }
 .main-header h1 {
-    font-size: 2.6rem;
+    font-size: 2.2rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #00d2ff 0%, #7b2ff7 50%, #ff6fd8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    margin-bottom: 0.3rem;
+    color: #1e3a5f;
+    margin-bottom: 0.2rem;
 }
 .main-header p {
-    color: #a0a0c0;
-    font-size: 1.05rem;
+    color: #64748b;
+    font-size: 1rem;
+    margin-top: 0;
 }
 
-/* Glass card */
+/* ── Section cards ── */
 .glass-card {
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 16px;
-    padding: 1.5rem 1.8rem;
-    margin-bottom: 1.2rem;
-    backdrop-filter: blur(12px);
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 1.2rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
 }
 .glass-card h3 {
     margin-top: 0;
     font-weight: 700;
-    font-size: 1.15rem;
-    color: #e0e0ff;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
-    padding-bottom: 0.6rem;
-    margin-bottom: 1rem;
+    font-size: 1.05rem;
+    color: #1e3a5f;
+    border-bottom: 2px solid #e0f2fe;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.8rem;
 }
 
-/* Result cards */
+/* ── Result cards ── */
 .result-card {
     text-align: center;
-    border-radius: 20px;
-    padding: 2.5rem 1.5rem;
+    border-radius: 16px;
+    padding: 2.2rem 1.5rem;
     margin-top: 1rem;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
 }
 .result-cancel {
-    background: linear-gradient(135deg, rgba(255,60,80,0.18) 0%, rgba(255,60,80,0.06) 100%);
-    border: 1.5px solid rgba(255,60,80,0.35);
+    background: linear-gradient(135deg, #fef2f2 0%, #fff5f5 100%);
+    border: 1.5px solid #fca5a5;
 }
 .result-notcancel {
-    background: linear-gradient(135deg, rgba(0,210,130,0.18) 0%, rgba(0,210,130,0.06) 100%);
-    border: 1.5px solid rgba(0,210,130,0.35);
+    background: linear-gradient(135deg, #f0fdf4 0%, #f5fef7 100%);
+    border: 1.5px solid #86efac;
 }
-.result-card .emoji { font-size: 3.5rem; }
+.result-card .emoji { font-size: 3rem; }
 .result-card .label {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 800;
-    margin: 0.5rem 0;
+    margin: 0.4rem 0;
 }
-.result-cancel .label { color: #ff3c50; }
-.result-notcancel .label { color: #00d282; }
+.result-cancel .label { color: #dc2626; }
+.result-notcancel .label { color: #16a34a; }
 .result-card .prob {
-    font-size: 1rem;
-    color: #a0a0c0;
+    font-size: 0.95rem;
+    color: #64748b;
 }
 
-/* Sidebar */
-section[data-testid="stSidebar"] {
-    background: linear-gradient(180deg, #13112b 0%, #1d1b3a 100%);
-}
-
-/* Buttons */
+/* ── Predict button ── */
 .stButton > button {
     width: 100%;
-    background: linear-gradient(90deg, #7b2ff7, #00d2ff) !important;
-    color: white !important;
+    background: linear-gradient(90deg, #3b82f6, #6dbfb8) !important;
+    color: #ffffff !important;
     border: none !important;
     border-radius: 12px !important;
     padding: 0.75rem 1.5rem !important;
     font-weight: 700 !important;
-    font-size: 1.1rem !important;
-    transition: transform 0.15s, box-shadow 0.15s !important;
+    font-size: 1.05rem !important;
+    letter-spacing: 0.02em !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
 }
 .stButton > button:hover {
     transform: translateY(-2px) !important;
-    box-shadow: 0 8px 25px rgba(123,47,247,0.35) !important;
+    box-shadow: 0 6px 20px rgba(59,130,246,0.30) !important;
+}
+
+/* ── Input widgets ── */
+.stSelectbox > div > div,
+.stNumberInput > div > div > input {
+    border-radius: 8px !important;
+}
+
+/* ── Divider ── */
+hr { border-color: #e2e8f0 !important; }
+
+/* ── Expander ── */
+.streamlit-expanderHeader {
+    font-weight: 600 !important;
+    color: #1e3a5f !important;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -161,8 +196,24 @@ COUNTRY_OPTIONS = [
 ]
 
 # ──────────────────────────────────────────────────────────────────
-# Header
+# Header with banner image
 # ──────────────────────────────────────────────────────────────────
+BANNER_PATH = os.path.join(os.path.dirname(__file__), "hotel_header.png")
+
+def get_base64_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+try:
+    banner_b64 = get_base64_image(BANNER_PATH)
+    st.markdown(f"""
+    <div class="banner-wrapper">
+        <img src="data:image/png;base64,{banner_b64}" alt="Hotel Banner">
+    </div>
+    """, unsafe_allow_html=True)
+except FileNotFoundError:
+    pass
+
 st.markdown("""
 <div class="main-header">
     <h1>🏨 Hotel Booking Cancellation Predictor</h1>
@@ -315,28 +366,3 @@ if st.button("🔮 Predict Cancellation"):
     except Exception as e:
         st.error(f"❌ Prediction error: {e}")
 
-# ──────────────────────────────────────────────────────────────────
-# Sidebar — model info
-# ──────────────────────────────────────────────────────────────────
-with st.sidebar:
-    st.markdown("### ℹ️ Model Info")
-    st.markdown("""
-    | Property | Value |
-    |---|---|
-    | **Model** | XGBClassifier |
-    | **Wrapper** | TunedThresholdClassifierCV |
-    | **n_estimators** | 300 |
-    | **max_depth** | 6 |
-    | **learning_rate** | 0.1 |
-    | **Scoring** | F-beta (β=0.5) |
-    """)
-
-    st.markdown("### 🔧 Preprocessing")
-    st.markdown("""
-    - **RobustScaler** → numerical columns
-    - **OneHotEncoder** (drop first) → `hotel`, `deposit_type`, `customer_type`
-    - **BinaryEncoder** → `meal`, `distribution_channel`, `market_segment`, `reserved_room_type`, `arrival_date_month`, `country`
-    """)
-
-    st.markdown("---")
-    st.caption("Hotel Booking Cancellation Predictor v1.0")
