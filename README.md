@@ -142,3 +142,75 @@ ADR bukan faktor utama secara linear, tetapi menjadi <b>risk amplifier</b> ketik
 <li><b>Deposit policy adalah kontrol paling efektif terhadap revenue risk</b><br>
 - No deposit -> risiko kehilangan revenue tertinggi<br>
 - Non refundable -> cancel tinggi, tapi revenue relatif aman</li>
+
+**7.1 Faktor Utama Penyebab Cancellation**
+</div>
+
+<ul>
+<li><b>Lead Time (Driver Utama)</b><br>
+Semakin jauh waktu booking, semakin tinggi ketidakpastian maka risiko cancel meningkat signifikan</li>
+
+<li><b>Customer Intent (Penentu Komitmen)</b><br>
+- Special requests : menurunkan cancel (high intent)<br>
+- Previous cancellations : meningkatkan cancel (repeat behavior)</li>
+
+<li><b>Pricing sebagai Risk Amplifier</b><br>
+Harga tidak berdampak secara langsung, tetapi memperbesar risiko pada booking dengan lead time tinggi</li>
+</ul>
+
+---
+ **7.2 Segmentasi High-Risk Customer**
+</div>
+
+<ul>
+<li><b>High Risk Segment</b><br>
+Booking dengan <b>lead time panjang + harga tinggi</b> -> probabilitas cancel tertinggi</li>
+
+<li><b>Low Risk Segment</b><br>
+Booking last minute : menunjukkan komitmen tinggi dan cancel rate rendah</li>
+
+<li><b>Behavioral Risk</b><br>
+Customer dengan riwayat cancel : akan cenderung mengulang perilaku yang sama</li>
+
+</ul>
+
+---
+  **7.3 Channel dengan Risiko Tertinggi**
+</div>
+
+<ul>
+<li><b>Online TA / OTA</b><br>
+Memiliki cancel rate tertinggi karena fleksibilitas tinggi dalam perubahan booking</li>
+
+<li><b>Direct & Corporate</b><br>
+Lebih stabil karena komitmen lebih tinggi dan proses booking lebih terkontrol</li>
+
+<li><b>Channel = Level of Control</b><br>
+Semakin fleksibel channel, semakin tinggi risiko pembatalan</li>
+</ul>
+
+---
+
+ **7.4 Dampak terhadap Revenue & Occupancy**
+</div>
+
+<ul>
+<li><b>Cancellation tidak selalu berarti revenue loss</b><br>
+Pada booking non refundable, hotel tetap menerima pembayaran meskipun terjadi pembatalan</li>
+
+<li><b>Revenue Risk berasal dari No Deposit</b><br>
+Booking tanpa deposit memiliki risiko kehilangan revenue tertinggi</li>
+
+<li><b>Peluang Double Revenue</b><br>
+Jika kamar dari no show dapat dijual kembali, hotel berpotensi mendapatkan revenue tambahan</li>
+
+<li><b>Fokus utama: Revenue Risk, bukan Cancellation Rate</b><br>
+Strategi bisnis harus berfokus pada dampak finansial, bukan hanya jumlah pembatalan</li>
+</ul>
+
+
+**Link Tableau** : https://public.tableau.com/views/PortugalHotelBookingDemandDashboard/Dashboard?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link
+
+**Link Streamlit**: https://finpro-ds-it39wabbxb2kztzj9axplu.streamlit.app/
+
+**Link PPT**: 
