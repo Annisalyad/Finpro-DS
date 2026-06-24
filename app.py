@@ -345,7 +345,7 @@ if st.button("🔮 Predict Cancellation"):
                 <div class="result-card result-cancel">
                     <div class="emoji">❌</div>
                     <div class="label">CANCELLED</div>
-                    <div class="prob">{"Probability: {:.1%}".format(prob_cancel) if prob_cancel is not None else ""}</div>
+                    <div class="prob">{"Probability: {:.0%}".format(prob_cancel) if prob_cancel is not None else ""}</div>
                 </div>
                 """, unsafe_allow_html=True)
             else:
@@ -353,7 +353,7 @@ if st.button("🔮 Predict Cancellation"):
                 <div class="result-card result-notcancel">
                     <div class="emoji">✅</div>
                     <div class="label">NOT CANCELLED</div>
-                    <div class="prob"<{"Probability: {:.1%}".format(prob_not) if prob_not is not None else ""}</div>
+                    <div class="prob"<{"Probability: {:.0%}".format(prob_not) if prob_not is not None else ""}</div>
                 </div>
                 """, unsafe_allow_html=True)
 
