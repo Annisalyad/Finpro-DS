@@ -156,7 +156,7 @@ hr { border-color: #e2e8f0 !important; }
 # ──────────────────────────────────────────────────────────────────
 # Load model
 # ──────────────────────────────────────────────────────────────────
-MODEL_PATH = os.path.join(os.path.dirname(__file__), "best_model_hotel_demand_030526_1109.pkl")
+MODEL_PATH = os.path.join(os.path.dirname(__file__), "bestmodel_bookinghotel_2406526_1153.pkl"")
 
 @st.cache_resource
 def load_model():
